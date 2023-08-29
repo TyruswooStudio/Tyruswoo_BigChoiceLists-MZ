@@ -137,8 +137,6 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
  * game switches, or variables, McKathlin's Switchable Text plugin has the
  * tools for the job. It's available on Tyruswoo.com.
  * * * *
- *
- * TODO: Rewrite this to describe List Switches plugin command
  * 
  * How To Make a Big Choice List that Shows Known, Incomplete Quests
  * ------------------------------------------------------------------
