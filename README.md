@@ -76,9 +76,10 @@ in a scrolling single-column window no wider than the widest choice text.
 To give them a wide multi-column display, read on.
 
 ### How to Display a Choice List in a Wide, Multi-column Window
+
 1. Set up your message text and choice list as described in the how-to
    above.
-2. Directly BEFORE the message text that accompanies the choice list,
+2. Directly **before** the message text that accompanies the choice list,
    create a plugin command. Select the plugin Tyruswoo_BigChoiceLists,
    and the command Wide Choice List.
 3. The following arguments appear in the table: Column Count (set to 2),
@@ -97,6 +98,7 @@ game switches, or variables, McKathlin's Switchable Text plugin has the
 tools for the job. It's available on [Tyruswoo.com](https://www.tyruswoo.com).
 
 ### How To Make a Big Choice List that Shows Known, Incomplete Quests
+
 1. Decide on the names of the quests you want available for discussion,
    and then set up two lists of switches for them: one for whether each
    quest is known, and another for whether each quest is complete.
@@ -131,6 +133,8 @@ tools for the job. It's available on [Tyruswoo.com](https://www.tyruswoo.com).
    postfixes) or Always Show choices exactly, or they'll be filtered out!
 9. Fill each resulting choice branch with any discussion you have in mind
    for that questline.
+
+### For more help using this plugin, see [Tyruswoo.com](https://www.tyruswoo.com).
 
 ## Version History
 
