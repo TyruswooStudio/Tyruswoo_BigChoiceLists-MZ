@@ -36,7 +36,7 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 
 /*:
  * @target MZ
- * @plugindesc MZ v1.0 Choice lists with any number of options!
+ * @plugindesc MZ v1.0.1 Choice lists with any number of options!
  * @author Tyruswoo and McKathlin
  * @url https://www.tyruswoo.com
  * 
@@ -185,6 +185,8 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
  *        - Fully compatible with Switchable Text.
  *        - List Switches plugin command filters by switch state.
  * 
+ * v1.0.1  8/30/2023
+ *        - This plugin is now free and open source under the MIT license.
  * ============================================================================
  * MIT License
  *

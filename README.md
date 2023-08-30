@@ -145,6 +145,9 @@ tools for the job. It's available on [Tyruswoo.com](https://www.tyruswoo.com).
 - Fully compatible with Switchable Text.
 - List Switches plugin command filters by switch state.
 
+**v1.0.1** - 8/30/2023
+- This plugin is now free and open source under the [MIT license](https://opensource.org/license/mit/).
+
 > **Remember, only you can build your dreams!**
 >
 > *Tyruswoo*
