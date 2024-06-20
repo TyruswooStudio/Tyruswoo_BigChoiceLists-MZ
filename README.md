@@ -151,6 +151,9 @@ tools for the job. It's available on [Tyruswoo.com](https://www.tyruswoo.com).
 **v1.0.2** - 2/2/2024
 - Fixed crash on opening a choice list not accompanied by a message window.
 
+**v1.0.3** - 6/20/2024
+- Fixed crash affecting choice lists in events loaded from mid-event saves.
+
 > **Remember, only you can build your dreams!**
 >
 > *Tyruswoo*

@@ -36,7 +36,7 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 
 /*:
  * @target MZ
- * @plugindesc MZ v1.0.2 Choice lists with any number of options!
+ * @plugindesc MZ v1.0.3 Choice lists with any number of options!
  * @author Tyruswoo and McKathlin
  * @url https://www.tyruswoo.com
  * 
@@ -191,6 +191,10 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
  * v1.0.2  2/2/2024
  *        - Fixed crash on opening a choice list not accompanied by a message
  *          window.
+ * 
+ * v1.0.3  6/20/2024
+ *        - Fixed crash affecting choice lists in some events loaded from
+ *          mid-event saves.
  * ============================================================================
  * MIT License
  *
@@ -985,13 +989,6 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 			Game_Interpreter.prototype.setupChoices;
 	}
 
-	Tyruswoo.BigChoiceLists.Game_Interpreter_clear =
-		Game_Interpreter.prototype.clear;
-	Game_Interpreter.prototype.clear = function() {
-		Tyruswoo.BigChoiceLists.Game_Interpreter_clear.call(this);
-		this._addOnChoiceIndexes = new Set();
-	};
-
 	// Alias method. Alias defined above.
 	Game_Interpreter.prototype.setupChoices = function(params) {
 		Tyruswoo.BigChoiceLists.applyNextWindowSettings();
@@ -1006,7 +1003,7 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 		const DISALLOW_CANCEL = -1;
 		const NO_DEFAULT = -1;
 
-		this._addOnChoiceIndexes.clear();
+		this._addOnChoiceIndexes = new Set();
 		const startParams = this.currentCommand().parameters;
 		var choiceListSoFar = [];
 		var cancelChoiceSoFar = DISALLOW_CANCEL;
@@ -1110,7 +1107,7 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 	Tyruswoo.BigChoiceLists.Game_Interpreter_command102 =
 		Game_Interpreter.prototype.command102;
 	Game_Interpreter.prototype.command102 = function(params) {
-		if (this._addOnChoiceIndexes.has(this._index)) {
+		if (this._addOnChoiceIndexes && this._addOnChoiceIndexes.has(this._index)) {
 			// This choice list has already been combined with
 			// the choice list at the head of its chain.
 			// So it should be ignored at this stage.
