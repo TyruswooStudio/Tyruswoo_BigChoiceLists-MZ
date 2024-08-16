@@ -176,6 +176,8 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
  *    for that questline.
  *
  * ============================================================================
+ * Visit Tyruswoo.com to ask for help, donate, or browse more of our plugins.
+ * ============================================================================
  * Version History:
  * 
  * v1.0  3/10/2023
