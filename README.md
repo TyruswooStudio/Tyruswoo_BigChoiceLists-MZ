@@ -134,7 +134,7 @@ tools for the job. It's available on [Tyruswoo.com](https://www.tyruswoo.com).
 9. Fill each resulting choice branch with any discussion you have in mind
    for that questline.
 
-### For more help using this plugin, see [Tyruswoo.com](https://www.tyruswoo.com).
+### Visit [**Tyruswoo.com**](https://www.tyruswoo.com) to [ask for help](https://www.tyruswoo.com/contact-us/), [donate](https://www.tyruswoo.com/donate/), or browse more of our [plugins](https://www.tyruswoo.com/downloads/rpg-maker-plugin-downloads/).
 
 ## Version History
 
