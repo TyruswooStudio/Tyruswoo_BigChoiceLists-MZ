@@ -154,6 +154,10 @@ tools for the job. It's available on [Tyruswoo.com](https://www.tyruswoo.com).
 **v1.0.3** - 6/20/2024
 - Fixed crash affecting choice lists in events loaded from mid-event saves.
 
+**v1.0.4** - Pending
+- Fixed rare crash on reloading from autosave.
+- Fixed glitches affecting nested choice lists.
+
 > **Remember, only you can build your dreams!**
 >
 > *Tyruswoo*
