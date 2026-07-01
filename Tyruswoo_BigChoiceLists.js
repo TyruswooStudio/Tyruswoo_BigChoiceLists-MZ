@@ -196,9 +196,9 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
  *   - Fixed crash affecting choice lists in some events loaded from
  *     mid-event saves.
  * 
- * v1.0.4  Pending
- *   - Fixed rare crash on reloading from autosave.
- *   - Fixed rare glitches affecting nested choice lists.
+ * v1.0.4  7/1/2026
+ *   - Fixed crash on choice list as first command after loading save.
+ *   - Fixed glitches affecting nested choice lists.
  * ============================================================================
  * MIT License
  *
@@ -983,6 +983,14 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 	//=============================================================================
 	// Game_Interpreter: Combine choice params and reference choices by name
 	//-----------------------------------------------------------------------------
+
+	// Alias method
+	Tyruswoo.BigChoiceLists.Game_Interpreter_clear =
+		Game_Interpreter.prototype.clear;
+	Game_Interpreter.prototype.clear = function() {
+		Tyruswoo.BigChoiceLists.Game_Interpreter_clear.call(this);
+		this._choiceIndexesAtIndent = [];
+	}
 
 	// Sidestep Switchable Text's changes to setupChoices, if already made.
 	if (Imported.McKathlin_SwitchableText) {
