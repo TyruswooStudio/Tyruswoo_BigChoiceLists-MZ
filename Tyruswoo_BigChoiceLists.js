@@ -36,7 +36,7 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 
 /*:
  * @target MZ
- * @plugindesc MZ v1.0.3 Choice lists with any number of options!
+ * @plugindesc MZ v1.0.4 Choice lists with any number of options!
  * @author Tyruswoo and McKathlin
  * @url https://www.tyruswoo.com
  * 
@@ -176,27 +176,29 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
  *    for that questline.
  *
  * ============================================================================
- * Visit Tyruswoo.com to ask for help, donate, or browse more of our plugins.
- * ============================================================================
  * Version History:
  * 
  * v1.0  3/10/2023
- *        - Big Choice Lists released for RPG Maker MZ!
- *        - Combine multiple Show Choices commands to make a long choice list!
- *        - Display multi-column choice lists!
- *        - Fully compatible with Switchable Text.
- *        - List Switches plugin command filters by switch state.
+ *   - Big Choice Lists released for RPG Maker MZ!
+ *   - Combine multiple Show Choices commands to make a long choice list!
+ *   - Display multi-column choice lists!
+ *   - Fully compatible with Switchable Text.
+ *   - List Switches plugin command filters by switch state.
  * 
  * v1.0.1  8/30/2023
- *        - This plugin is now free and open source under the MIT license.
+ *   - This plugin is now free and open source under the MIT license.
  * 
  * v1.0.2  2/2/2024
- *        - Fixed crash on opening a choice list not accompanied by a message
- *          window.
+ *   - Fixed crash on opening a choice list not accompanied by a message
+ *     window.
  * 
  * v1.0.3  6/20/2024
- *        - Fixed crash affecting choice lists in some events loaded from
- *          mid-event saves.
+ *   - Fixed crash affecting choice lists in some events loaded from
+ *     mid-event saves.
+ * 
+ * v1.0.4  7/1/2026
+ *   - Fixed crash on choice list as first command after loading save.
+ *   - Fixed glitches affecting nested choice lists.
  * ============================================================================
  * MIT License
  *
@@ -982,6 +984,14 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 	// Game_Interpreter: Combine choice params and reference choices by name
 	//-----------------------------------------------------------------------------
 
+	// Alias method
+	Tyruswoo.BigChoiceLists.Game_Interpreter_clear =
+		Game_Interpreter.prototype.clear;
+	Game_Interpreter.prototype.clear = function() {
+		Tyruswoo.BigChoiceLists.Game_Interpreter_clear.call(this);
+		this._choiceIndexesAtIndent = [];
+	}
+
 	// Sidestep Switchable Text's changes to setupChoices, if already made.
 	if (Imported.McKathlin_SwitchableText) {
 		Tyruswoo.BigChoiceLists.Game_Interpreter_setupChoices =
@@ -1005,14 +1015,16 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 		const DISALLOW_CANCEL = -1;
 		const NO_DEFAULT = -1;
 
-		this._addOnChoiceIndexes = new Set();
+		this._choiceIndexesAtIndent = this._choiceIndexesAtIndent || [];
+		this._choiceIndexesAtIndent[this._indent] = [];
+
 		const startParams = this.currentCommand().parameters;
 		var choiceListSoFar = [];
 		var cancelChoiceSoFar = DISALLOW_CANCEL;
 		var defaultChoiceSoFar = NO_DEFAULT;
 		for (let i = this._index;
 			 i < this._list.length;
-			 i = this.nextChoiceIndexAfter(i)) {
+			 i = this.nextChoiceIndexAfter(i, this._indent)) {
 			let myParams = this._list[i].parameters;
 			let myChoiceList = myParams[0];
 			let myCancelChoice = myParams[1];
@@ -1043,7 +1055,7 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 			}
 
 			if (i !== this._index) {
-				this._addOnChoiceIndexes.add(i);
+				this._choiceIndexesAtIndent[this._indent].push(i);
 			}
 		} // endfor each consecutive choice list command
 
@@ -1080,13 +1092,13 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 	};
 
 	// New helper method
-	Game_Interpreter.prototype.nextChoiceIndexAfter = function(prevChoiceIndex) {
+	Game_Interpreter.prototype.nextChoiceIndexAfter = function(prevChoiceIndex, prevIndent) {
 		const NOT_FOUND_INDEX = this._list.length;
 		for (let i = prevChoiceIndex + 1; i < this._list.length; i++) {
 			let command = this._list[i];
-			if (command.indent < this._indent) {
+			if (command.indent < prevIndent) {
 				return NOT_FOUND_INDEX; // Our branch has ended.
-			} else if (command.indent > this._indent) {
+			} else if (command.indent > prevIndent) {
 				continue; // Skip everything inside our choice branches.
 			}
 
@@ -1109,7 +1121,11 @@ Tyruswoo.BigChoiceLists = Tyruswoo.BigChoiceLists || {};
 	Tyruswoo.BigChoiceLists.Game_Interpreter_command102 =
 		Game_Interpreter.prototype.command102;
 	Game_Interpreter.prototype.command102 = function(params) {
-		if (this._addOnChoiceIndexes && this._addOnChoiceIndexes.has(this._index)) {
+		if (
+			this._choiceIndexesAtIndent &&
+			this._choiceIndexesAtIndent[this._indent] &&
+			this._choiceIndexesAtIndent[this._indent].includes(this._index)
+		) {
 			// This choice list has already been combined with
 			// the choice list at the head of its chain.
 			// So it should be ignored at this stage.
